@@ -8,11 +8,13 @@ import 'package:logging/logging.dart';
 class AdsController {
   static final _log = Logger('AdsController');
 
+  final MobileAds _mobileAds;
   final List<MediationAdapter>? mediationAdapters;
 
   AdsController({
     this.mediationAdapters,
-  });
+    MobileAds? mobileAds,
+  }) : _mobileAds = mobileAds ?? MobileAds.instance;
 
   Future<void> init() async {
     _log.info('Initializing AdsController');
@@ -21,7 +23,7 @@ class AdsController {
       await adapter.init();
     }
 
-    await MobileAds.instance.initialize();
+    await _mobileAds.initialize();
   }
 
   Future<T?> load<T extends Ad>(AdAdapter<T> adapter) {
