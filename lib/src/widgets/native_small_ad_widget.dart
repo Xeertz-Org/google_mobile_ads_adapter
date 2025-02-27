@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
-class NativeSmallAdWidget extends StatelessWidget {
+class NativeSmallAdWidget extends StatefulWidget {
   static const double minWidth = 320;
   static const double minHeight = 90;
 
@@ -26,13 +26,24 @@ class NativeSmallAdWidget extends StatelessWidget {
   }
 
   @override
+  State<NativeSmallAdWidget> createState() => _NativeSmallAdWidgetState();
+}
+
+class _NativeSmallAdWidgetState extends State<NativeSmallAdWidget> {
+  @override
+  void dispose() {
+    widget.ad.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) => ConstrainedBox(
         constraints: BoxConstraints(
-          minWidth: minWidth,
-          minHeight: minHeight,
-          maxWidth: maxWidth ?? 400,
-          maxHeight: maxHeight ?? 100,
+          minWidth: NativeSmallAdWidget.minWidth,
+          minHeight: NativeSmallAdWidget.minHeight,
+          maxWidth: widget.maxWidth ?? 400,
+          maxHeight: widget.maxHeight ?? 100,
         ),
-        child: AdWidget(ad: ad),
+        child: AdWidget(ad: widget.ad),
       );
 }
