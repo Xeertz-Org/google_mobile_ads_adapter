@@ -30,4 +30,32 @@ class AdsController {
     _log.info('Trying to load ad: ${adapter.id}');
     return adapter.load();
   }
+
+  void showConsentUMP() => ConsentInformation.instance.requestConsentInfoUpdate(
+        ConsentRequestParameters(),
+        () async {
+          if (await ConsentInformation.instance.isConsentFormAvailable()) {
+            _loadForm();
+          }
+        },
+        (FormError error) {
+          _log.warning('Failed to request consent info update: $error');
+        },
+      );
+
+  void _loadForm() => ConsentForm.loadConsentForm(
+        (ConsentForm consentForm) async {
+          var status = await ConsentInformation.instance.getConsentStatus();
+          if (status == ConsentStatus.required) {
+            consentForm.show(
+              (FormError? formError) {
+                _loadForm();
+              },
+            );
+          }
+        },
+        (formError) {
+          _log.warning('Failed to load consent form: $formError');
+        },
+      );
 }
