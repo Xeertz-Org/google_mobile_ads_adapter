@@ -1,39 +1,58 @@
-<!-- 
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+# google_mobile_ads_adapter
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/tools/pub/writing-package-pages). 
+An adapter package for the [google_mobile_ads](https://pub.dev/packages/google_mobile_ads) plugin, designed to simplify ads integration and management.
 
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/to/develop-packages). 
--->
+## Description
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
-
-## Features
-
-TODO: List what your package can do. Maybe include images, gifs, or videos.
-
-## Getting started
-
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+`google_mobile_ads_adapter` provides a comprehensive set of utilities to manage ads using the [Google Mobile Ads SDK](https://developers.google.com/admob/flutter/quick-start) in Flutter applications.
+It includes predefined ad adapters, mediation adapters, and an ads controller to easily integrate and manage ads in your Flutter projects.
 
 ## Usage
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder. 
+### Ads Controller
+
+The `AdsController` class provides methods to initialize and load ads using different adapters.
 
 ```dart
-const like = 'sample';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:google_mobile_ads_adapter/google_mobile_ads_adapter.dart';
+
+void main() {
+  // Initialize the AdsController
+  AdsController adsController = AdsController();
+  adsController.init();
+
+  // Choose an ad to load
+  InterstitialAdAdapter interstitialAdAdapter = InterstitialAdAdapter('AD_ID');
+
+  // Load the ad
+  InterstitialAd? ad =
+      await adsController.load<InterstitialAd>(interstitialAdAdapter);
+
+  // Show the ad
+  ad?.show();
+}
 ```
 
-## Additional information
+#### Mediation Adapters
+Mediation adapters are wrappers around mediation providers' integrations and initialization.
+More will be provided in the future.
 
-TODO: Tell users more about the package: where to find more information, how to 
-contribute to the package, how to file issues, what response they can expect 
-from the package authors, and more.
+```dart
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:google_mobile_ads_adapter/google_mobile_ads_adapter.dart';
+
+void main() {
+  AdsController adsController = AdsController(
+    mediationAdapters: [
+      LiftoffmonetizeAdapter(),
+    ],
+  );
+  await adsController.init();
+}
+```
+
+## Issues and feedback
+
+Please report any issue, bug or feature request in
+our [issue tracker](https://github.com/Xeertz-Org/google_mobile_ads_adapter/issues)
