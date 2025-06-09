@@ -1,4 +1,3 @@
-
 import 'dart:ui';
 
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -18,12 +17,13 @@ class NativeAdAdapter extends AdAdapter<NativeAd> {
     this.callToActionBackgroundColor,
     this.callToActionTextColor,
     this.textColor,
+    super.request,
   });
 
   @override
   Future<void> getAd() => NativeAd(
         adUnitId: id,
-        request: const AdRequest(),
+        request: request,
         listener: NativeAdListener(
           onAdLoaded: (ad) async {
             await onAdInitialized?.call();

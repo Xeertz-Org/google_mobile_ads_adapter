@@ -1,0 +1,12 @@
+name: my_package_example
+description: Example project for my_package
+publish_to: 'none'
+
+environment:
+  sdk: ^3.6.2
+
+dependencies:
+  google_mobile_ads_adapter:
+    path: ../
+  google_mobile_ads: ^6.0.0
+  gma_mediation_liftoffmonetize: ^1.2.1

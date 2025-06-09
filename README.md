@@ -35,14 +35,30 @@ void main() {
 ```
 
 #### Mediation Adapters
-Mediation adapters are wrappers around mediation providers' integrations and initialization.
-More will be provided in the future.
+To use a mediation provider, implement your own adapter by extending `MediationAdapter`. For example:
 
 ```dart
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:google_mobile_ads_adapter/google_mobile_ads_adapter.dart';
+import 'package:gma_mediation_liftoffmonetize/gma_mediation_liftoffmonetize.dart';
 
-void main() {
+class LiftoffmonetizeAdapter extends MediationAdapter {
+  final GmaMediationLiftoffmonetize _mediation;
+
+  LiftoffmonetizeAdapter({
+    GmaMediationLiftoffmonetize? mediation,
+  }) : _mediation = mediation ?? GmaMediationLiftoffmonetize();
+
+  @override
+  Future<void> init() async {
+    await super.init();
+    await _mediation.setGDPRStatus(true, '1.0.0');
+    await _mediation.setCCPAStatus(true);
+  }
+}
+```
+Then provide your adapter to the `AdsController`:
+```dart
+void main() async {
   AdsController adsController = AdsController(
     mediationAdapters: [
       LiftoffmonetizeAdapter(),
