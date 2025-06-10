@@ -11,7 +11,6 @@ dependencies:
       sdk: flutter
   google_mobile_ads: ^6.0.0
   logging: ^1.3.0
-  meta: ^1.15.0
 
 dev_dependencies:
   flutter_lints: ^5.0.0

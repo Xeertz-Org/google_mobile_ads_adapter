@@ -1,5 +1,4 @@
-import 'dart:ui';
-
+import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:google_mobile_ads_adapter/src/adapters/base/ad_adapter.dart';
 
@@ -12,6 +11,7 @@ class NativeAdAdapter extends AdAdapter<NativeAd> {
 
   NativeAdAdapter(
     super.id, {
+    super.onAdInitialized,
     this.templateType = TemplateType.small,
     this.mainBackgroundColor,
     this.callToActionBackgroundColor,
@@ -21,7 +21,7 @@ class NativeAdAdapter extends AdAdapter<NativeAd> {
   });
 
   @override
-  Future<void> getAd() => NativeAd(
+  Future<void> getAd(BuildContext context) => NativeAd(
         adUnitId: id,
         request: request,
         listener: NativeAdListener(
@@ -30,7 +30,7 @@ class NativeAdAdapter extends AdAdapter<NativeAd> {
             return onAdLoaded.call(ad as NativeAd);
           },
           onAdFailedToLoad: (ad, error) {
-            onAdFailedToLoad.call(error);
+            onAdFailedToLoad.call(context, error);
             ad.dispose();
           },
         ),

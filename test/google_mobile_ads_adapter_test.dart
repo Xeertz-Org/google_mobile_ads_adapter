@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:google_mobile_ads_adapter/src/ads_controller.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -11,10 +12,13 @@ class MockAdAdapter extends Mock implements AdAdapter {}
 
 class MockMobileAds extends Mock implements MobileAds {}
 
+class FakeBuildContext extends Fake implements BuildContext {}
+
 void main() {
   final MockMediationAdapter mockMediationAdapter = MockMediationAdapter();
   final MockAdAdapter mockAdAdapter = MockAdAdapter();
   final MockMobileAds mockMobileAds = MockMobileAds();
+  final BuildContext mockContext = FakeBuildContext();
 
   final AdsController adsController = AdsController(
     mediationAdapters: [mockMediationAdapter],
@@ -39,12 +43,12 @@ void main() {
 
   test('should load an ad using the provided AdAdapter', () async {
     when(() => mockAdAdapter.id).thenReturn('AD_ID');
-    when(() => mockAdAdapter.load())
+    when(() => mockAdAdapter.load(mockContext))
         .thenAnswer((_) async => Future.value(null));
 
-    await adsController.load(mockAdAdapter);
+    await adsController.load(mockContext, adapter: mockAdAdapter);
 
     verify(() => mockAdAdapter.id).called(1);
-    verify(() => mockAdAdapter.load()).called(1);
+    verify(() => mockAdAdapter.load(mockContext)).called(1);
   });
 }

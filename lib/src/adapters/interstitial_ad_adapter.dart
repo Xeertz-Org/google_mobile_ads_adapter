@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:google_mobile_ads_adapter/src/adapters/dismissible_ad_adapter.dart';
 
@@ -5,10 +6,16 @@ class InterstitialAdAdapter extends DismissibleAdAdapter<InterstitialAd> {
   InterstitialAdAdapter(
     super.id, {
     super.request,
+    super.onAdInitialized,
+    super.onAdDismissed,
+    super.onAdClicked,
+    super.onAdShowedFullScreenContent,
+    super.onAdImpression,
+    super.onAdFailedToShowFullScreenContent,
   });
 
   @override
-  Future<void> getAd() => InterstitialAd.load(
+  Future<void> getAd(BuildContext context) => InterstitialAd.load(
         adUnitId: id,
         request: request,
         adLoadCallback: InterstitialAdLoadCallback(
@@ -17,7 +24,7 @@ class InterstitialAdAdapter extends DismissibleAdAdapter<InterstitialAd> {
             ad.fullScreenContentCallback = fullScreenContentCallback;
             return onAdLoaded.call(ad);
           },
-          onAdFailedToLoad: onAdFailedToLoad,
+          onAdFailedToLoad: (error) => onAdFailedToLoad.call(context, error),
         ),
       );
 }

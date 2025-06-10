@@ -1,5 +1,5 @@
+import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
-import 'package:meta/meta.dart';
 
 abstract class MediationAdapter<T> {
   @protected

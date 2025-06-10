@@ -1,10 +1,13 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:google_mobile_ads_adapter/src/adapters/base/ad_adapter.dart';
 import 'package:google_mobile_ads_adapter/src/mediation/mediation_adapter.dart';
 import 'package:logging/logging.dart';
 
+/// Controller for managing ads in the application.
+/// This class handles the initialization of mediation adapters and loading ads of various types.
 class AdsController {
   static final _log = Logger('AdsController');
 
@@ -26,9 +29,12 @@ class AdsController {
     await _mobileAds.initialize();
   }
 
-  Future<T?> load<T extends Ad>(AdAdapter<T> adapter) {
+  Future<T?> load<T extends Ad>(
+    BuildContext context, {
+    required AdAdapter<T> adapter,
+  }) {
     _log.info('Trying to load ad: ${adapter.id}');
-    return adapter.load();
+    return adapter.load(context);
   }
 
   void showConsentUMP() => ConsentInformation.instance.requestConsentInfoUpdate(

@@ -1,8 +1,8 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:logging/logging.dart';
-import 'package:meta/meta.dart';
 
 abstract class AdAdapter<T extends Ad> {
   static const int defaultMaxLoadAttempts = 3;
@@ -33,12 +33,13 @@ abstract class AdAdapter<T extends Ad> {
       };
 
   @protected
-  void Function(LoadAdError) get onAdFailedToLoad => (LoadAdError error) {
+  void Function(BuildContext, LoadAdError) get onAdFailedToLoad =>
+      (BuildContext context, LoadAdError error) {
         log.warning('Failed to load ad: $error');
         _loadAttempts += 1;
 
         if (_loadAttempts < maxLoadAttempts) {
-          return getAd();
+          return getAd(context);
         }
 
         _completer!.complete(null);
@@ -47,17 +48,17 @@ abstract class AdAdapter<T extends Ad> {
   void setOnAdInitialized(FutureOr<void> Function() onAdInitialized) =>
       this.onAdInitialized = onAdInitialized;
 
-  Future<T?> load() {
+  Future<T?> load(BuildContext context) {
     if (_completer != null && !_completer!.isCompleted) {
       log.warning('Load operation already in progress');
       return _completer!.future;
     }
 
     _completer = Completer<T?>();
-    getAd();
+    getAd(context);
     return _completer!.future;
   }
 
   @protected
-  void getAd();
+  void getAd(BuildContext context);
 }
