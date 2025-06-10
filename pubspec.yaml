@@ -1,6 +1,6 @@
 name: google_mobile_ads_adapter
 description: An adapter package for the google_mobile_ads plugin, designed to simplify ads integration and management.
-version: 0.0.1
+version: 1.1.1
 repository: https://github.com/Xeertz-Org/google_mobile_ads_adapter.git
 
 environment:
