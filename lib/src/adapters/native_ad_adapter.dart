@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:google_mobile_ads_adapter/src/adapters/base/ad_adapter.dart';
 
+/// Adapter for loading and managing native ads.
+/// Usually used with a [NativeAdWidget] or [NativeSmallAdWidget].
 class NativeAdAdapter extends AdAdapter<NativeAd> {
   final TemplateType templateType;
   final Color? mainBackgroundColor;
@@ -21,7 +23,7 @@ class NativeAdAdapter extends AdAdapter<NativeAd> {
   });
 
   @override
-  Future<void> getAd(BuildContext context) => NativeAd(
+  Future<void> getAd() => NativeAd(
         adUnitId: id,
         request: request,
         listener: NativeAdListener(
@@ -30,7 +32,7 @@ class NativeAdAdapter extends AdAdapter<NativeAd> {
             return onAdLoaded.call(ad as NativeAd);
           },
           onAdFailedToLoad: (ad, error) {
-            onAdFailedToLoad.call(context, error);
+            onAdFailedToLoad.call(error);
             ad.dispose();
           },
         ),

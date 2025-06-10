@@ -46,19 +46,24 @@ abstract class DismissibleAdAdapter<T extends Ad> extends AdAdapter<T> {
         },
       );
 
+  /// Sets the callback for when an ad dismisses full screen content.
   void setOnAdDismissed(FutureOr<void> Function() onAdDismissed) =>
       _onAdDismissed = onAdDismissed;
 
+  /// Sets the callback for when an ad is clicked.
   void setOnAdClicked(FutureOr<void> Function(T) onAdClicked) =>
       _onAdClicked = onAdClicked;
 
+  /// Sets the callback for when an ad shows full screen content.
   void setOnAdShowedFullScreenContent(
           FutureOr<void> Function(T) onAdShowedFullScreenContent) =>
       _onAdShowedFullScreenContent = onAdShowedFullScreenContent;
 
+  /// Sets the callback for when an impression occurs on the ad.
   void setOnAdImpression(FutureOr<void> Function(T) onAdImpression) =>
       _onAdImpression = onAdImpression;
 
+  /// Sets the callback for when an ad fails to show full screen content.
   void setOnAdFailedToShowFullScreenContent(
           FutureOr<void> Function(T, AdError)
               onAdFailedToShowFullScreenContent) =>

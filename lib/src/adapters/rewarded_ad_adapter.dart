@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:google_mobile_ads_adapter/src/adapters/dismissible_ad_adapter.dart';
 
+/// Adapter for loading and managing rewarded ads.
 class RewardedAdAdapter extends DismissibleAdAdapter<RewardedAd> {
   RewardedAdAdapter(
     super.id, {
@@ -15,7 +15,7 @@ class RewardedAdAdapter extends DismissibleAdAdapter<RewardedAd> {
   });
 
   @override
-  Future<void> getAd(BuildContext context) => RewardedAd.load(
+  Future<void> getAd() => RewardedAd.load(
         adUnitId: id,
         request: request,
         rewardedAdLoadCallback: RewardedAdLoadCallback(
@@ -24,7 +24,7 @@ class RewardedAdAdapter extends DismissibleAdAdapter<RewardedAd> {
             ad.fullScreenContentCallback = fullScreenContentCallback;
             return onAdLoaded.call(ad);
           },
-          onAdFailedToLoad: (error) => onAdFailedToLoad.call(context, error),
+          onAdFailedToLoad: (error) => onAdFailedToLoad.call(error),
         ),
       );
 }

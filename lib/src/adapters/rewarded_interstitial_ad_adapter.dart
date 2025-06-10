@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:google_mobile_ads_adapter/src/adapters/dismissible_ad_adapter.dart';
 
+/// Adapter for loading and managing rewarded interstitial ads.
 class RewardedInterstitialAdAdapter
     extends DismissibleAdAdapter<RewardedInterstitialAd> {
   RewardedInterstitialAdAdapter(
@@ -16,7 +16,7 @@ class RewardedInterstitialAdAdapter
   });
 
   @override
-  Future<void> getAd(BuildContext context) => RewardedInterstitialAd.load(
+  Future<void> getAd() => RewardedInterstitialAd.load(
         adUnitId: id,
         request: request,
         rewardedInterstitialAdLoadCallback: RewardedInterstitialAdLoadCallback(
@@ -25,7 +25,7 @@ class RewardedInterstitialAdAdapter
             ad.fullScreenContentCallback = fullScreenContentCallback;
             return onAdLoaded.call(ad);
           },
-          onAdFailedToLoad: (error) => onAdFailedToLoad.call(context, error),
+          onAdFailedToLoad: (error) => onAdFailedToLoad.call(error),
         ),
       );
 }

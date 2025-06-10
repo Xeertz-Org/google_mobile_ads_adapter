@@ -6,8 +6,6 @@ environment:
   sdk: ^3.6.2
 
 dependencies:
-  flutter:
-    sdk: flutter
   google_mobile_ads_adapter:
     path: ../
   google_mobile_ads: ^6.0.0

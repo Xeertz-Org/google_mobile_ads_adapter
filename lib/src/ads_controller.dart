@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:google_mobile_ads_adapter/src/adapters/base/ad_adapter.dart';
 import 'package:google_mobile_ads_adapter/src/mediation/mediation_adapter.dart';
@@ -19,6 +18,7 @@ class AdsController {
     MobileAds? mobileAds,
   }) : _mobileAds = mobileAds ?? MobileAds.instance;
 
+  /// Initializes the AdsController by initializing all mediation adapters and the MobileAds SDK.
   Future<void> init() async {
     _log.info('Initializing AdsController');
 
@@ -29,14 +29,14 @@ class AdsController {
     await _mobileAds.initialize();
   }
 
-  Future<T?> load<T extends Ad>(
-    BuildContext context, {
-    required AdAdapter<T> adapter,
-  }) {
+  /// Loads an ad using the provided [AdAdapter].
+  Future<T?> load<T extends Ad>(AdAdapter<T> adapter) {
     _log.info('Trying to load ad: ${adapter.id}');
-    return adapter.load(context);
+    return adapter.load();
   }
 
+  /// Requests user consent for personalized ads. (Google UMP)
+  /// This method checks if the consent form is available and shows it to the user.
   void showConsentUMP() => ConsentInformation.instance.requestConsentInfoUpdate(
         ConsentRequestParameters(),
         () async {

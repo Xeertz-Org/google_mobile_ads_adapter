@@ -1,12 +1,14 @@
-## 1.0.0
-
-**Breaking Changes**
-
+## 1.1.2
 - Removed direct dependency on specific mediation adapters.
   Clients must now provide their own mediation adapter implementations to the `AdsController`.
-- Added support for `BannerAd`, which required adding the `BuildContext` parameter to the `load` method.
+- Added support for `BannerAd`.
 - Updated example.
 
-## 0.0.1
+## 1.1.1
+**RETRACTED**
 
+## 1.0.0
+**RETRACTED**
+
+## 0.0.1
 - Initial version.

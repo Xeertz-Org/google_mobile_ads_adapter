@@ -1,54 +1,26 @@
-import 'package:flutter/material.dart';
 import 'package:gma_mediation_liftoffmonetize/gma_mediation_liftoffmonetize.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:google_mobile_ads_adapter/google_mobile_ads_adapter.dart';
 
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatefulWidget {
-  const MyApp({super.key});
-
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  final AdsController adsController = AdsController(
+Future<void> main() async {
+  AdsController adsController = AdsController(
     mediationAdapters: [
       LiftoffmonetizeAdapter(),
     ],
   );
 
-  Future<void> loadAd(BuildContext context) async {
-    // Choose an ad to load
-    InterstitialAdAdapter interstitialAdAdapter =
-        InterstitialAdAdapter('AD_ID');
+  // Initialize the AdsController with the Liftoffmonetize adapter
+  await adsController.init();
 
-    // Load the ad
-    InterstitialAd? ad = await adsController.load<InterstitialAd>(context,
-        adapter: interstitialAdAdapter);
+  // Choose an ad to load
+  InterstitialAdAdapter interstitialAdAdapter = InterstitialAdAdapter('AD_ID');
 
-    // Show the ad
-    ad?.show();
-  }
+  // Load the ad
+  InterstitialAd? ad =
+      await adsController.load<InterstitialAd>(interstitialAdAdapter);
 
-  @override
-  void initState() async {
-    super.initState();
-
-    // BE CAREFUL: This is an async method, so you should not call it in initState directly.
-    // The async and await keywords are just for demonstration purposes.
-    // Initialize the AdsController with the Liftoffmonetize adapter
-    await adsController.init();
-    await loadAd(context);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
-  }
+  // Show the ad
+  ad?.show();
 }
 
 class LiftoffmonetizeAdapter extends MediationAdapter {

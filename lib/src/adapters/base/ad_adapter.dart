@@ -33,13 +33,12 @@ abstract class AdAdapter<T extends Ad> {
       };
 
   @protected
-  void Function(BuildContext, LoadAdError) get onAdFailedToLoad =>
-      (BuildContext context, LoadAdError error) {
+  void Function(LoadAdError) get onAdFailedToLoad => (LoadAdError error) {
         log.warning('Failed to load ad: $error');
         _loadAttempts += 1;
 
         if (_loadAttempts < maxLoadAttempts) {
-          return getAd(context);
+          return getAd();
         }
 
         _completer!.complete(null);
@@ -48,17 +47,17 @@ abstract class AdAdapter<T extends Ad> {
   void setOnAdInitialized(FutureOr<void> Function() onAdInitialized) =>
       this.onAdInitialized = onAdInitialized;
 
-  Future<T?> load(BuildContext context) {
+  Future<T?> load() {
     if (_completer != null && !_completer!.isCompleted) {
       log.warning('Load operation already in progress');
       return _completer!.future;
     }
 
     _completer = Completer<T?>();
-    getAd(context);
+    getAd();
     return _completer!.future;
   }
 
   @protected
-  void getAd(BuildContext context);
+  void getAd();
 }
